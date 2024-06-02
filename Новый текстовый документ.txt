@@ -1,0 +1,26 @@
+const { exec } = require('child_process');
+
+// Функция для запуска Flask-сервера
+function startFlaskServer() {
+    // Указываем команду для запуска Flask-сервера
+    const command = 'python app.py'; // Замените 'app.py' на имя вашего скрипта Flask
+
+    // Запускаем Flask-сервер
+    const child = exec(command);
+
+    // Обработка событий при запуске сервера
+    child.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+    });
+
+    child.stderr.on('data', (data) => {
+        console.error(`stderr: ${data}`);
+    });
+
+    child.on('close', (code) => {
+        console.log(`child process exited with code ${code}`);
+    });
+}
+
+// Вызываем функцию для запуска Flask-сервера
+startFlaskServer();
